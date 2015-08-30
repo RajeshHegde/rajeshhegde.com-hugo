@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Unused Variables in Go  &middot; RH.io </title>
+
+  
+  <link rel="stylesheet" href="http://localhost:1313//css/poole.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/syntax.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="RH.io" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 class="brand"><a href="http://localhost:1313/">RH.io</a></h1>
+      <p class="lead">
+       code by Rajesh Hegde 
+      </p>
+    </div>
+
+
+
+    <ul class="sidebar-nav">
+      <li><a href="http://localhost:1313//blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      
+      <li>Code:</li>
+        
+          <li><a href="/lumberjack.v2/">Lumberjack </a></li>
+        
+          <li><a href="/pie/">Pie </a></li>
+        
+          <li><a href="/npipe.v2/">npipe </a></li>
+        
+      
+    </ul>
+      <a href="https://twitter.com/rajesh.p.hegde"><i class="fa fa-twitter-square"></i></a>&nbsp;&nbsp;
+      
+      
+      <a href="https://github.com/RajeshHegde"><i class="fa fa-github-square"></i></a>&nbsp;&nbsp;
+      
+
+    <p class="footnote">powered by <a href="http://hugo.spf13.com">Hugo</a> <br/>
+    &copy; 2015 Nate Finch. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Unused Variables in Go</h1>
+    <span class="post-date">Mar 28, 2014</span>
+    
+    <p>The Go compiler treats unused variables as a compilation error. This causes much
+annoyance to some newbie Gophers, especially those used to writing languages
+that aren&rsquo;t compiled, and want to be able to be fast and loose with their code
+while doing exploratory hacking.</p>
+
+<p>The thing is, an unused variable is often a bug in your code, so pointing it out
+early can save you a lot of heartache.</p>
+
+<p>Here&rsquo;s an example:</p>
+
+<pre><code class="language-go">50 func Connect(name, port string) error {
+51     hostport := &quot;&quot;
+52    if port == &quot;&quot; {
+53        hostport := makeHost(name)
+54        logger.Infof(&quot;No port specified, connecting on port 8080.&quot;)
+55    } else {
+56        hostport := makeHostPort(name, port)
+57        logger.Infof(&quot;Connecting on port %s.&quot;, port)
+58    }
+59    // ... use hostport down here
+60 }
+</code></pre>
+
+<p>Where&rsquo;s the bug in the above?  Without the compiler error, you&rsquo;d run the code
+and have to figure out why hostport was always an empty string.  Did we pass in
+empty strings by accident?  Is there a bug in makeHost and makeHostPort?</p>
+
+<p>With the compiler error, it will say &ldquo;53, hostport declared and not used&rdquo; and
+&ldquo;56, hostport declared and not used&rdquo;</p>
+
+<p>This makes it a lot more obvious what the problem is&hellip; inside the scope of the
+if statement, := declares new variables called hostport.  These hide the
+variable from the outer scope, thus, the outer hostport never gets modified,
+which is what gets used further on in the function.</p>
+
+<pre><code class="language-go">50 func Connect(name, port string) error {
+51    hostport := &quot;&quot;
+52    if port == &quot;&quot; {
+53        hostport = makeHost(name)
+54        logger.Infof(&quot;No port specified, connecting on port 8080.&quot;)
+55    } else {
+56        hostport = makeHostPort(name, port)
+57        logger.Infof(&quot;Connecting on port %s.&quot;, port)
+58    }
+59    // ... use hostport down here
+60 }
+</code></pre>
+
+<p>The above is the corrected code. It took only a few seconds to fix, thanks to
+the unused variable error from the compiler.  If you&rsquo;d been testing this by
+running it or even with unit tests&hellip; you&rsquo;d probably end up spending a non-
+trivial amount of time trying to figure it out.  And this is just a very simple
+example.  This kind of problem can be a lot more elaborate and hard to find.</p>
+
+<p>And that&rsquo;s why the unused variable declaration error is actually a good thing.
+If a value is important enough to be assigned to a variable, it&rsquo;s probably a bug
+if you&rsquo;re not actually using that variable.</p>
+
+<p><strong>Bonus tip:</strong></p>
+
+<p>Note that if you don&rsquo;t care about the variable, you can just assign it to the
+empty identifier directly:</p>
+
+<pre><code class="language-go">_, err := computeMyVar()
+</code></pre>
+
+<p>This is the normal way to avoid the compiler error in cases where a function
+returns more than you need.</p>
+
+<p>If you <em>really</em> want to silence the unused variable error and not remove the
+variable for some reason, this is the way to do it:</p>
+
+<pre><code class="language-go">v, err := computeMyVar() 
+_ = v  // this counts as using the variable 
+</code></pre>
+
+<p>Just don&rsquo;t forget to clean it up before committing.</p>
+
+<p>All of the above also goes for unused packages.  And a similar tip for silencing
+that error:</p>
+
+<pre><code class="language-go">_ = fmt.Printf // this counts as using the package
+</code></pre>
+
+    
+
+     
+	
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost") 
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'npfio';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="http://disqus.com/?ref_noscript">Disqus.</a></noscript>
+</div>
+</div> 
+
+<script>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>w
+</html>

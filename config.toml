@@ -1,0 +1,23 @@
+baseurl = "http://rajeshhegde.com"
+languageCode = "en-us"
+title = "RH.io"
+theme = "hyde"
+copyright = "Rajesh Hegde"
+
+[Author]
+	name = "Rajesh Hegde"
+
+[Permalinks]
+	blog = "/:year/:month/:filename/"
+	code = "/:filename/"
+
+[Taxonomies]
+	tag = "tags"
+	series = "series"
+	series-desc = "series-desc"
+
+[params]
+	description = "extravaganza of Rajesh Hegde"
+	twitter = "https://twitter.com/rajeshphegde"
+	github = "https://github.com/RajeshHegde"
+	disqus = "rajeshhegde.com"

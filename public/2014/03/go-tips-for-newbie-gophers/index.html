@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Go Tips for Newbie Gophers  &middot; RH.io </title>
+
+  
+  <link rel="stylesheet" href="http://localhost:1313//css/poole.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/syntax.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="RH.io" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 class="brand"><a href="http://localhost:1313/">RH.io</a></h1>
+      <p class="lead">
+       code by Rajesh Hegde 
+      </p>
+    </div>
+
+
+
+    <ul class="sidebar-nav">
+      <li><a href="http://localhost:1313//blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      
+      <li>Code:</li>
+        
+          <li><a href="/lumberjack.v2/">Lumberjack </a></li>
+        
+          <li><a href="/pie/">Pie </a></li>
+        
+          <li><a href="/npipe.v2/">npipe </a></li>
+        
+      
+    </ul>
+      <a href="https://twitter.com/rajesh.p.hegde"><i class="fa fa-twitter-square"></i></a>&nbsp;&nbsp;
+      
+      
+      <a href="https://github.com/RajeshHegde"><i class="fa fa-github-square"></i></a>&nbsp;&nbsp;
+      
+
+    <p class="footnote">powered by <a href="http://hugo.spf13.com">Hugo</a> <br/>
+    &copy; 2015 Nate Finch. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Go Tips for Newbie Gophers</h1>
+    <span class="post-date">Mar 15, 2014</span>
+    
+    <p>This is just a collection of tips that would have saved me a lot of time if I had known about them when I was a newbie:<br /><br /><b>Build or test everything under the current directory and subdirectories:</b><br /><b><br /></b><pre style="tab-size: 4;">go build ./&hellip;<br />go test ./&hellip;</pre><span style="font-family: inherit;">Technically, both commands take a pattern to match the name of one or more packages, and the &hellip; specifier is a wildcard, so you could do &hellip;/foo/&hellip; to match all packages under GOPATH with foo in their path.&nbsp;</span><br /><br /><b>Have an io.Writer that writes to an in-memory data structure:</b><br /><br /><div><pre style="tab-size: 4;">b := &amp;bytes.Buffer{}<br />thing.WriteTo(b)</pre><b>Have an io.Reader read from a string (useful when you want to use a string as the input data for something):</b><br /><pre style="tab-size: 4;">r := strings.NewReader(myString)<br />thing.ReadFrom(r)</pre><b>Copy data from a reader to a writer:</b><br /><br /><pre style="tab-size: 4;">io.Copy(toWriter, fromReader)</pre><b>Timeout waiting on a channel:</b><br /><br /><pre style="tab-size: 4;">select {<br/>&nbsp; &nbsp;case val := &lt;- ch<br/>&nbsp; &nbsp; &nbsp; &nbsp;// use val<br/>&nbsp; &nbsp;case &lt;-time.After(time.Second*5)<br />}</pre><b>Convert a slice of bytes to a string:</b><pre style="tab-size: 4;">var b []byte = getData()<br/>s := string(b)</pre><b>Passing a nil pointer into an interface does not result in a nil interface:</b><pre style="tab-size: 4;">func isNil(i interface{}) bool {<br/>&nbsp; &nbsp; return i == nil<br/>}<br/>var f *foo = nil<br />fmt.Println(isNil(f)) &nbsp;// prints false</pre></div><div><b>The only way to get a nil interface is to pass the keyword nil:</b></div><div><pre style="tab-size: 4;">var f *foo = nil<br/>if f == nil {<br />&nbsp; &nbsp; fmt.Println(isNil(nil)) &nbsp;// prints true<br/>}</pre></div><div><b>How to remember where the arrow goes for channels:</b></div><div><br /></div><div>The arrow points in the direction of data flow, either into or out of the channel, and always points left.</div><div><br /></div><div><b>The above is generalizable to anything where you have a source and destination, or reading and writing, or assigning.</b></div><div><b><br /></b></div><div>Data is taken from the right and assigned to the left, just as it is with a := b. &nbsp;So, like io.Copy, you know that the reader (source) is on the right, the writer (destination) is on the left: &nbsp;io.Copy(dest, src).</div><div><br /></div><div><b>If you ever think &ldquo;man, someone should have made a helper function to do this!&rdquo;, chances are they have, and it&rsquo;s in the std lib somewhere.</b></div></div></p>
+
+    
+
+     
+	
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost") 
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'npfio';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="http://disqus.com/?ref_noscript">Disqus.</a></noscript>
+</div>
+</div> 
+
+<script>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>w
+</html>
