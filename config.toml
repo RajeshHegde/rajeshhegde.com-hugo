@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "RH.io"
 theme = "hyde"
 copyright = "Rajesh Hegde"
-publishdir: "rajeshhegde.github.io"
+publishdir = "rajeshhegde.github.io"
 
 [Author]
 	name = "Rajesh Hegde"
