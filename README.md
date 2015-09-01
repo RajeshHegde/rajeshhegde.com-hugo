@@ -1,5 +1,4 @@
-npf.io
+rajeshhegde.github.io
 ===
 
-This is the code behind the site [npf.io](http://npf.io), used by
-[Hugo](http://hugo.spf13.com) to generate a static html site.
+Hugo static site generator for rajeshhegde.com
