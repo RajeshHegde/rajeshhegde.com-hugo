@@ -17,7 +17,7 @@ Hugo is a fast &amp; modern static website engine. Hugo will break the barrier o
 ### What is GitHub pages ?
 GitHub pages are static set of pages hosted on GitHub.
 
-### Setting up Repositories
+### Setting up repositories
 Create 2 GitHub repository to set up blog in GitHub pages.
 
 1. `<blog-name>-hugo` : For Hugo project
@@ -79,4 +79,6 @@ In the above configuration, change `publishdir` to `<github username>.github.io`
 
 ### Deploy site
 Let us generate the site using `hugo` which will generated all HTMLs in `<github username>.github.io` directory. This directory need to be pushed to github to be able to access on `http://<github username>.github.io`. 
-Since `<github username>.github.io` is a submodule, while pusing any changes to blog use this command `git push --recurse-submodules=on-demand`. Now your site is available at `http://<github username>.github.io`. Kudos...
+Since `<github username>.github.io` is a submodule, while pushing any changes to blog use this command `git push --recurse-submodules=on-demand`.
+
+Now your site is available at `http://<github username>.github.io`. Kudos...
