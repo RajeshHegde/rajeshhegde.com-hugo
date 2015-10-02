@@ -11,10 +11,10 @@ type = "post"
 
 This post briefly describes how to host Hugo blog on GitHub pages.
 
-### What is Hugo ?
+### What is Hugo?
 Hugo is a fast &amp; modern static website engine. Hugo will break the barrier of setting up a web server to create a simple blog.
 
-### What is GitHub pages ?
+### What is GitHub pages?
 GitHub pages are static set of pages hosted on GitHub.
 
 ### Setting up repositories
@@ -27,7 +27,7 @@ Clone the repo to your local machine using below command
 `git clone git@github.com:<username>/<blog-name>-hugo.git`
 
 then setup `<github username>.github.io` as submodule
-`git submodule add git@github.com:<username>/<username>.github.io.git`. Whatever the things goes here can be accessed through `http://<github username>.github.io`.
+`git submodule add git@github.com:<username>/<username>.github.io.git`. Whatever the thing goes here can be accessed through `http://<github username>.github.io`.
 
 
 ### Install Hugo
@@ -78,7 +78,7 @@ In the above configuration, change `publishdir` to `<github username>.github.io`
 `hugo server` will host your blog on `http://localhost:1313`. Content of `about.md` will be available at `http://localhost:1313/about`.
 
 ### Deploy site
-Let us generate the site using `hugo` which will generated all HTMLs in `<github username>.github.io` directory. This directory need to be pushed to github to be able to access on `http://<github username>.github.io`. 
+Let us generate the site using `hugo` which will generate all HTMLs in `<github username>.github.io` directory. This directory need to be pushed to github to be able to access on `http://<github username>.github.io`. 
 Since `<github username>.github.io` is a submodule, while pushing any changes to blog use this command `git push --recurse-submodules=on-demand`.
 
 Now your site is available at `http://<github username>.github.io`. Kudos...
