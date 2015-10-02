@@ -5,6 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   <meta name="description" content="Personal website of Rajesh Hegde">
+  <meta name="keywords" content="{{ with .Keywords }}{{ delimit . ", " }}{{ else }}{{ .Site.Params.keywords }}{{ end }}">
   <meta name="author" content="Rajesh Hegde">
 
   <meta property="og:title" content="{{ .Title }} {{if ne .Title .Site.Title}} &middot; {{ .Site.Title }} {{end}}"/>
