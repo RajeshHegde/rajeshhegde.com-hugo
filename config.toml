@@ -19,6 +19,7 @@ publishdir = "rajeshhegde.github.io"
 
 [params]
 	description = "extravaganza of Rajesh Hegde"
+	siteDescription = "Personal website of Rajesh Hegde"
 	twitter = "https://twitter.com/rajeshphegde"
 	github = "https://github.com/RajeshHegde"
 	googlePlus = "https://plus.google.com/105779623595863818485"

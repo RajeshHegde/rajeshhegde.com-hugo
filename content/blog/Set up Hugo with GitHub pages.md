@@ -7,9 +7,11 @@ type = "post"
 tags = [ "Hugo", "GitHub"]
 categories = [ "Blogging" ]
 keywords = ["hugo", "github pages", "setup blog"]
+description = "Brief descriptions on how to host Hugo blog on GitHub pages"
 [author]
 	name = "Rajesh Hegde"
 	uri = "http://rajeshhegde.com/2016/09/set-up-hugo-with-github-pages"
+
 +++
 
 This post briefly describes how to host Hugo blog on GitHub pages.
