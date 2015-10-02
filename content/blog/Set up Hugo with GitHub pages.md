@@ -8,6 +8,7 @@ tags = [ "Hugo", "GitHub"]
 categories = [ "Blogging" ]
 keywords = ["hugo", "github pages", "setup blog"]
 description = "Brief descriptions on how to host Hugo blog on GitHub pages"
+slug = "set-up-hugo-with-github-pages"
 [author]
 	name = "Rajesh Hegde"
 	uri = "http://rajeshhegde.com/2016/09/set-up-hugo-with-github-pages"
