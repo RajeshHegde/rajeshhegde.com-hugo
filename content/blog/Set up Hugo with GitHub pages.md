@@ -1,7 +1,7 @@
 +++
 title = "Set up Hugo with GitHub pages"
-date = 2016-09-08T08:03:00Z
-updated = 2016-09-08T08:03:00Z
+date = 2015-09-08T08:03:00Z
+updated = 2015-09-08T08:03:00Z
 blogimport = true 
 type = "post"
 tags = [ "Hugo", "GitHub"]
@@ -11,7 +11,7 @@ description = "Brief descriptions on how to host Hugo blog on GitHub pages"
 slug = "set-up-hugo-with-github-pages"
 [author]
 	name = "Rajesh Hegde"
-	uri = "http://rajeshhegde.com/2016/09/set-up-hugo-with-github-pages"
+	uri = "http://rajeshhegde.com/2015/09/set-up-hugo-with-github-pages"
 
 +++
 
