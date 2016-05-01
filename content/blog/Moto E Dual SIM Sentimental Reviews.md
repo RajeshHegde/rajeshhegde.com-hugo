@@ -11,6 +11,7 @@ description = "Compiled review for Moto E Dual SIM phone"
 slug = "moto-e-dual-sim-sentimental-reviews"
 [author]
 	name = "Rajesh Hegde"
+
 +++
 
 ### Phone specifications
